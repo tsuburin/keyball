@@ -1,0 +1,22 @@
+#!/bin/bash
+#
+# Usage: "$0" <PATH_TO_QMK_FIRMWAER_REPO>
+
+set -eu
+set -o posix
+set -o pipefail
+
+script_dir="$(cd "$(dirname "$0")"; pwd)"
+qmk_firmware_dir="$(cd "$1"; pwd)"
+keyball_dir="$(cd "${script_dir}"/..; pwd)"
+
+podman run --rm -it \
+  --privileged -v /dev:/dev \
+  -v "${qmk_firmware_dir}":/qmk_firmware \
+  -v "${keyball_dir}/qmk_firmware/keyboards/keyball":/qmk_firmware/keyboards/keyball \
+  -e ALT_GET_KEYBOARDS=true \
+  -e SKIP_GIT="${SKIP_GIT:-}" \
+  -e MAKEFLAGS="${MAKEFLAGS:-}" \
+  --workdir /qmk_firmware \
+  ghcr.io/qmk/qmk_cli \
+  make keyball/keyball61:via:flash
