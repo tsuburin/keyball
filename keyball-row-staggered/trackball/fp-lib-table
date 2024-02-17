@@ -1,0 +1,4 @@
+(fp_lib_table
+  (version 7)
+  (lib (name "tsuburin-keyboard")(type "KiCad")(uri "/home/tsubu/github/tsuburin/keyboard/tsuburin-keyboard.pretty")(options "")(descr ""))
+)
