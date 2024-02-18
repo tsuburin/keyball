@@ -1,4 +1,4 @@
-22813974138547132
+22819098841272353
 Audio_Module
 Reverb_BTDR-1H
 Digital Reverberation Unit, http://www.belton.co.kr/inc/downfile.php?seq=17&file=pdf (footprint from http://www.uk-electronic.de/PDF/BTDR-1.pdf)
@@ -93716,9 +93716,30 @@ CherryMX_Choc_Hotswap
 4
 2
 tsuburin-keyboard
-keyball_trackball
+PMW3360
+<b>PMW3360</b><br>
+
+0
+16
+16
+tsuburin-keyboard
+keyball_trackball_conthrough
 
 
 0
 7
 7
+tsuburin-keyboard
+keyball_trackball_header_master
+
+
+0
+6
+6
+tsuburin-keyboard
+keyball_trackball_header_slave
+Through hole angled pin header, 1x06, 2.54mm pitch, 6mm pin length, single row
+Through hole angled pin header THT 1x06 2.54mm single row
+0
+6
+6
