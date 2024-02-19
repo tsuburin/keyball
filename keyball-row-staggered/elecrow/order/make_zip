@@ -1,0 +1,60 @@
+#!/bin/zsh
+#
+# Kicadから出力されるガーバーデータ、ドリルデータをelecrow用の名前にリネームする
+#
+# Usage:
+# "$0" <DIR>
+#
+# 元データの作成方法
+#
+# 1. ダイアログを開く
+#   ファイル -> プロット
+#
+# 2. 出力先フォルダーを選択
+#
+# 3. ガーバーデータの出力
+# * 「Protelの拡張子を使用」を選択
+# * 以下を出力する
+#   * F.Cu
+#   * B.Cu
+#   * F.Silkscreen
+#   * B.Silkscreen
+#   * F.Mask
+#   * B.Mask
+#   * Edge.Cuts
+#
+# 4. ドリルデータの出力
+# * 「PTHとNPTHを一つのファイルにマージ」を選択
+# * ドリル単位 mm
+
+set -eu
+set -o pipefail
+
+autoload -Uz zmv
+alias zmv='noglob zmv -W'
+
+cd "$1"
+
+find_project_name() {
+  if (( $# != 1 )); then
+    echo "multiple .drl files are found" >&2
+    return 1
+  fi
+
+  echo "${1%.drl}"
+}
+
+project_name="$(find_project_name *.drl)"
+
+mkdir "${project_name}"
+
+zmv -C '*-B_Cu.gbl' "${project_name}"/'*.gbl'
+zmv -C '*-B_Mask.gbs' "${project_name}"/'*.gbs'
+zmv -C '*-B_Silkscreen.gbo' "${project_name}"/'*.gbo'
+zmv -C '*-Edge_Cuts.gm1' "${project_name}"/'*.gml'
+zmv -C '*-F_Cu.gtl' "${project_name}"/'*.gtl'
+zmv -C '*-F_Mask.gts' "${project_name}"/'*.gts'
+zmv -C '*-F_Silkscreen.gto' "${project_name}"/'*.gto'
+zmv -C '*.drl' "${project_name}"/'*.txt'
+
+zip -r "${project_name}.zip" "${project_name}"
